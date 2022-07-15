@@ -20,4 +20,4 @@ y = 2+x
 ```
 
 
-![ImageTitle](/blog_AZ/Loss_png.png){:class="img-responsive"}
+![ImageTitle](/assets/blog_AZ/Loss_png.png){:class="img-responsive"}
