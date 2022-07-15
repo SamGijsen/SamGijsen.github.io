@@ -2,6 +2,8 @@
 title: Testing!
 categories:
 - General
+feature_text: |
+  Feature text
 ---
 
 ## Test
