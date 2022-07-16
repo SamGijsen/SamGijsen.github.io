@@ -1,5 +1,5 @@
 ---
-title: AlphaZero Homebrew!
+title: AlphaZero Homebrew
 categories:
 - General
 feature_text: |
