@@ -3,13 +3,17 @@ title: AlphaZero Homebrew
 categories:
 - General
 feature_text: |
-  Feature text
+
+excerpt: |
+    Let's have a look at the AlphaZero algorithm, implement it for the game of TicTacToe, and inspect its performance.
+  
+feature_image: "https://picsum.photos/1300/400?image=989"
 ---
 
 ## Homebrew your own AlphaZero
 
 
-Let's have a look at the AlphaZero algorithm, implement it for the game of TicTacToe, and inspect its performance.
+Let's have a look at the AlphaZero algorithm, implement it for the game of TicTacToe, and inspect its performance. All the code can be found in this [repository](https://github.com/SamGijsen/AlphaZero_Homebrew).
 
 | ![ttt](/assets/blog_AZ/steampunk_ttt.png){:class="img-responsive"} |
 |:--:| 
