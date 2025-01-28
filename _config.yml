@@ -55,7 +55,11 @@ social: # jekyll-seo-tag > social overrides
 
 # 4. Jekyll settings
 sass:
-  style: compressed # Style compression
+  style: compressed
+  sass_dir: _sass
+  load_paths:
+    - _sass
+    - assets
 permalink: pretty  # Permalink style (/YYYY/MM/DD/page-name/)
 excerpt_separator: <!-- more --> # Marks end of excerpt in posts
 timezone: Europe/London # Timezone for blog posts and alike
@@ -106,7 +110,7 @@ email: ""
 # google_analytics_anonymize_ip: ""
 # service_worker: false # Will turn off the service worker if set to false
 # short_name: "Al" # The web application short name, defaults to the site title
-css_inline: true # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
+css_inline: false # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
 
 # 8. Site favicons & manifest icons
 favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'

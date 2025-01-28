@@ -2,12 +2,12 @@
 title: AlphaZero Homebrew
 categories:
 - General
-feature_text: |
+# feature_text: |
 
 excerpt: |
     Let's have a look at the AlphaZero algorithm, implement it for the game of TicTacToe, and inspect its performance.
   
-feature_image: "https://picsum.photos/1300/400?image=989"
+# feature_image: "https://picsum.photos/1300/400?image=989"
 ---
 
 ## Homebrew your own AlphaZero

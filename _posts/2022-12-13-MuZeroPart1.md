@@ -2,12 +2,12 @@
 title: MuZero - part 1
 categories:
 - General
-feature_text: |
+# feature_text: |
 
 excerpt: |
     An initial high level view of a simple MuZero implementation.
   
-feature_image: "https://picsum.photos/1300/400?image=989"
+# feature_image: "https://picsum.photos/1300/400?image=989"
 ---
 
 ## MuZero: A high level view

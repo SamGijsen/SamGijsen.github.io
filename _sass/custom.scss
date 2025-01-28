@@ -1,0 +1,181 @@
+// Reset any problematic theme styles
+.typeset, .article {
+  background: inherit !important;
+  color: inherit !important;
+}
+
+// Typography adjustments with higher specificity
+html body {
+  font-size: 16px;  // Base font size
+  
+  .typeset, article {
+    h1 {
+      font-size: 2em !important;
+      margin-bottom: 0.5em !important;
+      margin-top: 0.5em !important;
+      font-family: "Merriweather", serif !important;
+      line-height: 1.2 !important;
+    }
+
+    h2 {
+      font-size: 1.5em !important;
+      margin-bottom: 0.5em !important;
+      margin-top: 1em !important;
+      font-family: "Merriweather", serif !important;
+      line-height: 1.2 !important;
+    }
+
+    h3 {
+      font-size: 1.2em !important;
+      margin-bottom: 0.3em !important;
+      margin-top: 0.6em !important;
+      font-family: "Merriweather", serif !important;
+      line-height: 1.2 !important;
+    }
+
+    p, li {
+      font-size: 1em !important;
+      line-height: 1.4 !important;
+      font-family: Georgia, serif !important;
+      margin-bottom: 0.3em !important;
+    }
+
+    ul, ol {
+      margin-top: 0.3em !important;
+      margin-bottom: 1em !important;
+      padding-left: 1.5em !important;
+    }
+
+    li {
+      margin-bottom: 0.2em !important;
+    }
+  }
+
+  .position-details {
+    margin-top: 0.3em !important;
+    margin-bottom: 0.8em !important;
+  }
+
+  .container {
+    div[style*="display: flex"] {
+      margin-bottom: 1em !important;  // Reduce space between flex containers
+      
+      h3 {
+        margin-top: 0.3em !important;
+        margin-bottom: 0.3em !important;
+      }
+      
+      p {
+        margin-bottom: 0.2em !important;
+      }
+    }
+  }
+}
+
+// Tighter spacing for horizontal rules
+hr {
+  margin: 0.3em 0 !important;
+  padding: 0 !important;
+  height: 1px !important;
+  background: #ddd !important;
+  border: none !important;
+}
+
+// Override any theme hr styles
+.typeset hr {
+  padding: 0 !important;
+  margin: 0.3em 0 !important;
+}
+
+.feature {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  min-height: 35vh;
+  position: relative;
+  
+  .container {
+    position: relative;
+    z-index: 1;
+    padding: 3rem 0;
+    h3 {
+      margin-top: 0.5em !important;
+      margin-bottom: 0.3em !important;
+    }
+    
+    hr {
+      margin: 0.4em 0 !important;
+    }
+    
+    .button {
+      margin: 0.1em 0.2em !important;
+    }
+  }
+}
+
+// // Remove any potential duplicate elements
+// .header .feature,
+// .feature + .feature {
+//   display: none;
+// }
+
+// GIF playback control
+@keyframes slowdown {
+  100% {
+    background-position: 100%;
+  }
+}
+
+img[src$=".gif"] {
+  animation-timing-function: steps(1) !important;  // Makes the animation smoother
+  animation-duration: 1s !important;  // Adjust this value to control speed (higher = slower)
+  animation-iteration-count: infinite !important;
+}
+
+.project-heading {
+  font-size: 1.2em !important;
+  margin-bottom: 0 !important;
+  margin-top: 0.8em !important;
+  font-family: "Merriweather", serif !important;
+  
+  + p {
+    margin-top: 0.2em !important;
+    margin-bottom: 0.2em !important;
+  }
+}
+
+.title-compact {
+  font-size: 1.2em;
+  line-height: 1.2;
+  margin: 1em 0 0 0;
+  padding: 0;
+  font-weight: bold;
+  
+  span {
+    display: block;
+    font-size: 0.75em;
+    font-weight: normal;
+    margin-top: 0.2em;
+    margin-bottom: 1em;
+  }
+}
+
+// Remove spacing from empty headings
+h1:empty {
+  margin: 0;
+  padding: 0;
+  height: 0;
+}
+
+// Reduce spacing after navigation if needed
+.header {
+  margin-bottom: 1rem !important;  // Reduce from default
+}
+
+// Increase navigation link sizes
+.nav {
+  a {
+    font-size: 1.3em !important;  // Increase from default
+    padding: 0.5em 0.3em !important;  // Optional: adjust padding for better spacing
+  }
+}
