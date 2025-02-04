@@ -12,8 +12,8 @@
     <p><strong>Postdoctoral Researcher</strong> 
     <br>Machine Learning in Clinical Neuroimaging<br>
     <ul style="margin-top: 0.3em;">
+      <li><a href="https://hertie.ai/machine-learning">Hertie Institute for AI in Brain Health, Tübingen</a></li>
       <li><a href="https://psychiatrie-psychotherapie.charite.de/en/research/translation_and_neurotechnology/machine_learning">Charité - Universitätsmedizin Berlin</a></li>
-      <li><a href="https://hertie.ai/machine-learning">Hertie Institute for AI in Brain Health</a></li>
     </ul></p>
   </div>
   <img src="/assets/profile_pic.jpg" alt="Dr. Sam Gijsen" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; margin-left: 2em;">
