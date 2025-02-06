@@ -86,7 +86,7 @@
   <div>
     <p><strong>Hillsbrad Diffusion: A World Diffusion Model Criminally Undertrained</strong><br> A qualitative look at a world diffusion model undertrained on two hours of sparse exploration of a large map.</p>
     <p>
-      <a href="https://samgijsen.github.io/blog/2025/01/27/HillsbradDiffusion">Blog post</a> •
+      <a href="https://samgijsen.github.io/general/2025/01/27/HillsbradDiffusion">Blog post</a> •
       <!-- <a href="https://github.com/SamGijsen/HillsbradDiffusion">Code</a> -->
     </p>
   </div>
