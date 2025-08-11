@@ -25,16 +25,17 @@
 <hr style="margin: 0.5em 0;">
 
 <div class="title-compact">
-  EEG-Language Pretraining for Pathology Detection
+  EEG-Language Pretraining for Highly Label-Efficient Clinical Phenotyping
   <span>Sam Gijsen, Kerstin Ritter</span>
 </div>
 <div style="display: flex; gap: 20px; margin-bottom: 2em;">
   <img src="/assets/papers/ELM.png" alt="Project 2" style="width: 350px; object-fit: cover;">
   <div>
-    <p>First-of-its-kind EEG-language model for downstream clinical tasks. We show that multimodal models integrating natural language learn more useful representations of neural data.</p>
+    <p> [ICML25] First-of-its-kind EEG-language model for downstream clinical tasks. We show that multimodal models integrating natural language learn more useful representations of neural data.</p>
     <p>
-      <a href="https://arxiv.org/abs/2409.07480">arXiv</a> •
-      <a >Code to come</a>
+      <a href="https://arxiv.org/abs/2409.07480">ICML Paper</a> •
+      <a href="https://github.com/SamGijsen/ELM">Code</a> •
+      <a href="https://github.com/SamGijsen/ELM/tree/main/pretrained">Pretrained Models</a>
     </p>
   </div>
 </div>
