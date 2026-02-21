@@ -11,16 +11,16 @@
   <div>
     <h1 style="margin-bottom: 0.2em;">Dr. Sam Gijsen</h1>
 
-    <p><strong>Postdoctoral Researcher</strong><br>
-    Foundation Models &amp; Representation Learning<br>for Neural Time Series</p>
+    <p><strong>Machine Learning Researcher</strong><br>
+    Representation Learning &amp; Multimodal Modeling<br>for Biological Time Series</p>
 
-
+    Currently a Postdoctoral Researcher at:
     <ul style="margin-top: 0.3em;">
       <li><a>Tübingen AI Center</a></li>
       <li><a href="https://hertie.ai/machine-learning">Hertie Institute for AI in Brain Health</a></li>
     </ul>
 
-    <p>I research multimodal representation learning and build foundation models for neural and physiological time series. My neuroscience background shapes how I think about learning in neural nets; I'm fascinated by what representations emerge, how they scale, and what they encode about the world.</p>
+    <p>I research multimodal representation learning and build foundation models for neural and physiological time series. Previously, I completed a PhD in Computational Cognitive Neuroscience (Freie Universität Berlin) and worked on pharmaco-imaging at King's College London and Maastricht University.</p>
   </div>
 
   <img src="/assets/profile_pic.jpg" alt="Dr. Sam Gijsen" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; margin-left: 2em;">
@@ -38,7 +38,7 @@
 <div style="display: flex; gap: 20px; margin-bottom: 2em;">
   <img src="/assets/papers/semantoks_tokenizer.png" alt="Project 2" style="width: 150px; object-fit: cover;">
   <div>
-    <p> We develop a self-distilled foundation model for brain dynamics that pretrains in 2 hours and eliminates the need for finetuning. We stabilize self-distillation for noisy neural timeseries through learned tokenization, and find log-linear scaling laws for pretraining data on cross-dataset downstream tasks.</p>
+    <p> We develop a self-distilled foundation model for brain dynamics that pretrains in 2 hours and eliminates the need for finetuning. We stabilize self-distillation for noisy neural time series through learned tokenization, and find log-linear scaling laws for pretraining data on cross-dataset downstream tasks.</p>
     <p>
       <a href="https://arxiv.org/abs/2512.11582">ICLR Paper</a> •
       <a href="https://github.com/SamGijsen/Brain-Semantoks">Code</a> •
