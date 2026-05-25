@@ -32,13 +32,25 @@
 <hr style="margin: 0.5em 0;">
 
 <div class="title-compact">
+  Flow Matching with In-Context Priors for Out-of-Distribution Brain Dynamics
+</div>
+<div style="margin-bottom: 2em;">
+  <video autoplay loop muted playsinline style="width: 100%; max-width: 700px; display: block; margin-bottom: 0.8em;">
+    <source src="/assets/papers/flow_matching_brain.mp4" type="video/mp4">
+  </video>
+  <p>We propose a per-timestep conditioned diffusion transformer for generating realistic neural time series during unseen experimental tasks by injecting both compositional language and optional spatial priors in-context. Its zero-shot generation can facilitate counterfactual neuroscience by supporting in-silico design and evaluation of novel cognitive experiments before empirical validation. arXiv forthcoming!</p>
+</div>
+
+<hr style="margin: 2.5em 0;">
+
+<div class="title-compact">
   [ICLR26] Brain-Semantoks: Learning Semantic Tokens of Brain Dynamics with a Self-Distilled Foundation Model
   <span>Sam Gijsen, Marc-André Schulz, Kerstin Ritter</span>
 </div>
 <div style="display: flex; gap: 20px; margin-bottom: 2em;">
   <img src="/assets/papers/semantoks_tokenizer.png" alt="Project 2" style="width: 150px; object-fit: cover;">
   <div>
-    <p> We develop a self-distilled foundation model for brain dynamics that pretrains in 2 hours and eliminates the need for finetuning. We stabilize self-distillation for noisy neural time series through learned tokenization, and find log-linear scaling laws for pretraining data on cross-dataset downstream tasks.</p>
+    <p> We develop a self-distilled foundation model for brain dynamics that pretrains in 2 hours and eliminates the need for finetuning. We stabilize self-distillation for noisy time series through learned tokenization, and find log-linear scaling laws for pretraining data on cross-dataset downstream tasks.</p>
     <p>
       <a href="https://arxiv.org/abs/2512.11582">ICLR Paper</a> •
       <a href="https://github.com/SamGijsen/Brain-Semantoks">Code</a> •
@@ -56,7 +68,7 @@
 <div style="display: flex; gap: 20px; margin-bottom: 2em;">
   <img src="/assets/papers/ELM.png" alt="Project 2" style="width: 350px; object-fit: cover;">
   <div>
-    <p> First-of-its-kind EEG-language model for downstream clinical tasks. We show that multimodal models integrating natural language learn more useful representations of neural data.</p>
+    <p> First-of-its-kind EEG-language model for downstream clinical tasks. We show a multiple-instance learning extension of the infoNCE loss enables multimodal models which align physiological time series with natural language, yielding more useful representations.</p>
     <p>
       <a href="https://arxiv.org/abs/2409.07480">ICML Paper</a> •
       <a href="https://github.com/SamGijsen/ELM">Code</a> •
@@ -81,23 +93,6 @@
 </div>
 
 <hr style="margin: 2.5em 0;">
-
-## Latest Blog post
-
-<!-- <div class="title-compact">
-  World Diffusion
-</div> -->
-
-<div style="display: flex; gap: 20px; margin-bottom: 2em;">
-  <img src="/assets/HillsbradDiffusion/morph_15fps.gif" alt="Project 2" style="width: 256px; object-fit: cover;">
-  <div>
-    <p><strong>Hillsbrad Diffusion: A World Diffusion Model Criminally Undertrained</strong><br> A qualitative look at a world diffusion model undertrained on two hours of sparse exploration of a large map.</p>
-    <p>
-      <a href="https://samgijsen.github.io/general/2025/01/27/HillsbradDiffusion">Blog post</a> 
-      <!-- <a href="https://github.com/SamGijsen/HillsbradDiffusion">Code</a> -->
-    </p>
-  </div>
-</div>
 
 ## Some Previous Work
 <hr style="margin: 0.5em 0;">
@@ -126,10 +121,24 @@
 <div style="display: flex; gap: 20px; margin-bottom: 2em;">
   <img src="/assets/papers/twostep.png" alt="Project 2" style="width: 300px; object-fit: cover;">
   <div>
-    <p>Compared to reinforcement learning, active inference models can better describe human sequential decision-making using probablistic surprise minimization.</p>
+    <p>We develop active inference models using probabilistic surprise minimization and show these to describe human sequential decision-making better compared to reinforcement learning.</p>
     <p>
       <a href="https://www.nature.com/articles/s41598-022-21766-4">Scientific Reports</a> • 
       <a href="https://github.com/SamGijsen/AI2step">Code</a> 
+    </p>
+  </div>
+</div>
+
+<hr style="margin: 2.5em 0;">
+
+## Latest Blog post
+
+<div style="display: flex; gap: 20px; margin-bottom: 2em;">
+  <img src="/assets/HillsbradDiffusion/morph_15fps.gif" alt="Project 2" style="width: 256px; object-fit: cover;">
+  <div>
+    <p><strong>Hillsbrad Diffusion: A World Diffusion Model Criminally Undertrained</strong><br> A qualitative look at a world diffusion model undertrained on two hours of sparse exploration of a large map.</p>
+    <p>
+      <a href="https://samgijsen.github.io/general/2025/01/27/HillsbradDiffusion">Blog post</a> 
     </p>
   </div>
 </div>
