@@ -12,7 +12,7 @@
     <h1 style="margin-bottom: 0.2em;">Dr. Sam Gijsen</h1>
 
     <p><strong>Machine Learning Researcher</strong><br>
-    Representation Learning &amp; Multimodal Modeling<br>for Biological Time Series</p>
+    Foundation &amp; Generative Models for Physiological Time Series</p>
 
     Currently a Postdoctoral Researcher at:
     <ul style="margin-top: 0.3em;">
@@ -20,7 +20,7 @@
       <li><a href="https://hertie.ai/machine-learning">Hertie Institute for AI in Brain Health</a></li>
     </ul>
 
-    <p>I research multimodal representation learning and build foundation models for neural and physiological time series. Previously, I completed a PhD in Computational Cognitive Neuroscience (Freie Universität Berlin) and worked on pharmaco-imaging at King's College London and Maastricht University.</p>
+    <p>I research multimodal representation learning and build both foundation models as well as generative models for neural and physiological time series. Previously, I completed a PhD in Computational Cognitive Neuroscience (Freie Universität Berlin) on probabilistic inference and worked on pharmaco-imaging at King's College London and Maastricht University.</p>
   </div>
 
   <img src="/assets/profile_pic.jpg" alt="Dr. Sam Gijsen" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; margin-left: 2em;">
@@ -38,8 +38,15 @@
   <video autoplay loop muted playsinline style="width: 100%; max-width: 700px; display: block; margin-bottom: 0.8em;">
     <source src="/assets/papers/flow_matching_brain.mp4" type="video/mp4">
   </video>
-  <p>We propose a per-timestep conditioned diffusion transformer for generating realistic neural time series during unseen experimental tasks by injecting both compositional language and optional spatial priors in-context. Its zero-shot generation can facilitate counterfactual neuroscience by supporting in-silico design and evaluation of novel cognitive experiments before empirical validation. arXiv forthcoming!</p>
+  <p>We propose a per-timestep conditioned diffusion transformer for generating realistic neural time series during unseen experimental tasks by injecting both compositional language and optional spatial priors in-context. Its zero-shot generation can facilitate counterfactual neuroscience by supporting in-silico design and evaluation of novel cognitive experiments before empirical validation.</p>
+    <p>
+      <a href="https://arxiv.org/abs/2606.11833">Preprint</a> •
+      <a href="https://github.com/SamGijsen/pinc-flows">Code</a> •
+      <a href="https://huggingface.co/SamGijsen/pinc-flows">Pretrained Models</a>
+    </p>
 </div>
+
+
 
 <hr style="margin: 2.5em 0;">
 
