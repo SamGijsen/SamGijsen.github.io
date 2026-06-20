@@ -55,20 +55,111 @@ html body {
     margin-top: 0.3em !important;
     margin-bottom: 0.8em !important;
   }
+}
 
-  .container {
-    div[style*="display: flex"] {
-      margin-bottom: 1em !important;  // Reduce space between flex containers
-      
-      h3 {
-        margin-top: 0.3em !important;
-        margin-bottom: 0.3em !important;
-      }
-      
-      p {
-        margin-bottom: 0.2em !important;
-      }
-    }
+.typeset {
+  overflow-wrap: break-word;
+
+  a {
+    overflow-wrap: anywhere;
+  }
+
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.profile-intro {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.profile-intro__copy {
+  flex: 1 1 auto;
+  min-width: 0;
+
+  h1 {
+    margin-bottom: 0.2em !important;
+  }
+}
+
+.typeset .profile-intro__photo {
+  flex: 0 0 auto;
+  width: 12.5rem;
+  max-width: 35%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.6rem 0 1.5rem;
+
+  .button {
+    margin: 0 !important;
+  }
+}
+
+.featured-work {
+  margin-bottom: 2rem;
+}
+
+.featured-work__video {
+  display: block;
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 0.8em;
+}
+
+.work-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.typeset .work-entry__media {
+  --work-media-width: 16rem;
+  flex: 0 1 var(--work-media-width);
+  width: var(--work-media-width);
+  max-width: 50%;
+  height: auto;
+  object-fit: contain;
+}
+
+.typeset .work-entry__media--small {
+  --work-media-width: 9.375rem;
+}
+
+.typeset .work-entry__media--medium {
+  --work-media-width: 16rem;
+}
+
+.typeset .work-entry__media--large {
+  --work-media-width: 18.75rem;
+}
+
+.typeset .work-entry__media--xlarge {
+  --work-media-width: 21.875rem;
+}
+
+.typeset .work-entry__media--wide {
+  --work-media-width: 25rem;
+}
+
+.work-entry__body {
+  flex: 1 1 0;
+  min-width: 0;
+
+  p:first-child {
+    margin-top: 0 !important;
   }
 }
 
@@ -177,5 +268,55 @@ h1:empty {
   a {
     font-size: 1.3em !important;  // Increase from default
     padding: 0.5em 0.3em !important;  // Optional: adjust padding for better spacing
+  }
+}
+
+@media screen and (max-width: 39.9375em) {
+  .profile-intro,
+  .work-entry {
+    flex-direction: column;
+  }
+
+  .profile-intro {
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  .typeset .profile-intro__photo {
+    order: -1;
+    width: 8.5rem;
+    max-width: 45%;
+  }
+
+  .profile-links {
+    gap: 0.25rem;
+
+    .button {
+      font-size: 0.95em !important;
+      padding: 0.45em 0.55em !important;
+    }
+  }
+
+  .work-entry {
+    gap: 0.65rem;
+  }
+
+  .typeset .work-entry__media {
+    flex-basis: auto;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .typeset .work-entry__media--small {
+    max-width: 14rem;
+  }
+
+  .title-compact {
+    font-size: 1.08em;
+  }
+
+  .nav a {
+    font-size: 1.05em !important;
+    padding: 0.35em 0.2em !important;
   }
 }
