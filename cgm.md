@@ -49,6 +49,8 @@ For SSL, we use a simple MAE setup to train a small causal transformer model. Sp
 
 We define a "label scarce" setting by using two subjects and sampling 2000 triplets per subject (i.e. for a total of 4000 triplets) which are available for supervised learning and finetuning, while 12 subjects (24000 samples) are available for SSL.
 
+### Results
+
 I find that SSL pretraining following by finetuning yields better cross-subject predictions:
 
 <div class="math-display">
@@ -81,7 +83,7 @@ Error stratification shows us where the improvements lie. The SSL gain seems con
 
 How about my hypothesis that context could improve calibration? That doesn't seem to hold for this dataset. Shuffling context values raises MARD by only ~0.3 points for either model, so the spectroscopy features are the main signal and neither model relies on context as a shortcut. I still believe this very much is left open for real data, where context seems genuinely reliability coupled (in ways that the toy simulator here might simply under-express).
 
-Plotting a couple model predictions for two random windows:
+Plotting a couple model predictions:
 
 <img src="/assets/blog_cgm/model_predictions.png" alt="Model predictions for two randomly selected windows" style="display: block; width: 100%; max-width: 900px; height: auto; margin: 0 auto 2rem;">
 
