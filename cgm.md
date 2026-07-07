@@ -17,7 +17,7 @@ The goal is to predict glucose in unseen subjects from Raman spectra, using addi
 Let's look at two potential challenges:
 
 1. Label scarcity: in a supervised setting, learning to predict glucose requires many paired Raman and glucose measurements, which are expensive to obtain.
-2. Temporal plausibility: for the predicted trajectories in the [Liom paper](https://journals.sagepub.com/doi/10.1177/19322968251313811), much of the error does not look physiologically impossible. Instead, the predicted trajectories appear insufficiently smooth. Context can help here: for example, high activity can induce rapid glucose changes, so conditioning on context variables may improve calibration.
+2. Temporal plausibility: for the predicted trajectories in the [Liom paper](https://journals.sagepub.com/doi/10.1177/19322968251313811), much of the error does not look physiologically impossible. Instead, the predicted trajectories appear insufficiently smooth. Context can help here: for example, intense physical activity can induce rapid glucose changes, so conditioning on context variables may improve calibration.
 
 Self-supervised learning (SSL) can help for both of these challenges.
 
