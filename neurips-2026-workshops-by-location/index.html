@@ -1,0 +1,1390 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="A searchable directory of NeurIPS 2026 workshops grouped by physical location.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>NeurIPS 2026 workshops by location</title>
+
+  <!--
+    Static NeurIPS 2026 workshop directory
+
+    Snapshot checked: 5 August 2026
+    Distinct workshops: 104
+    Location listings: 110
+    Browser-side API requests: none
+
+    To embed this in an existing page, copy:
+      1. this <style> block,
+      2. <section id="neurips-2026-workshops">,
+      3. the final <script> block.
+
+    All component classes use the n26- prefix.
+  -->
+
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .n26-directory {
+      --n26-bg: #f4f2ed;
+      --n26-panel: rgba(255, 255, 255, 0.88);
+      --n26-card: #ffffff;
+      --n26-text: #171816;
+      --n26-muted: #686b65;
+      --n26-line: #deddd7;
+      --n26-line-strong: #ceccc4;
+      --n26-accent: #315b4e;
+      --n26-accent-soft: #e7efe9;
+      --n26-shadow: 0 18px 48px rgba(33, 39, 35, 0.08);
+
+      box-sizing: border-box;
+      min-height: 100vh;
+      padding: clamp(34px, 6vw, 76px) 0 52px;
+      background:
+        radial-gradient(circle at 8% 0%, rgba(49, 91, 78, 0.10), transparent 27rem),
+        radial-gradient(circle at 92% 8%, rgba(151, 111, 59, 0.08), transparent 25rem),
+        var(--n26-bg);
+      color: var(--n26-text);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    .n26-directory *,
+    .n26-directory *::before,
+    .n26-directory *::after {
+      box-sizing: inherit;
+    }
+
+    .n26-shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .n26-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+      gap: clamp(24px, 4vw, 56px);
+      align-items: end;
+      margin-bottom: 28px;
+    }
+
+    .n26-eyebrow {
+      margin: 0 0 9px;
+      color: var(--n26-accent);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .n26-heading {
+      max-width: 820px;
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+    }
+
+    .n26-intro {
+      max-width: 760px;
+      margin: 15px 0 0;
+      color: var(--n26-muted);
+      font-size: clamp(0.97rem, 1.4vw, 1.08rem);
+    }
+
+    .n26-search-label {
+      display: block;
+      margin: 0 0 7px;
+      color: var(--n26-muted);
+      font-size: 0.77rem;
+      font-weight: 750;
+    }
+
+    .n26-search {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid var(--n26-line-strong);
+      border-radius: 13px;
+      outline: none;
+      background: var(--n26-card);
+      color: var(--n26-text);
+      padding: 11px 14px;
+      font: inherit;
+      box-shadow: 0 6px 18px rgba(30, 35, 32, 0.045);
+      transition: border-color 150ms ease, box-shadow 150ms ease;
+    }
+
+    .n26-search:focus {
+      border-color: var(--n26-accent);
+      box-shadow: 0 0 0 4px var(--n26-accent-soft);
+    }
+
+    .n26-summary {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 14px;
+      min-height: 28px;
+      margin: 0 0 16px;
+      color: var(--n26-muted);
+      font-size: 0.84rem;
+    }
+
+    .n26-summary strong {
+      color: var(--n26-text);
+      font-weight: 750;
+    }
+
+    .n26-locations {
+      display: grid;
+      gap: 18px;
+    }
+
+    .n26-location {
+      overflow: hidden;
+      border: 1px solid var(--n26-line);
+      border-radius: 20px;
+      background: var(--n26-panel);
+      box-shadow: var(--n26-shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .n26-location[hidden] {
+      display: none;
+    }
+
+    .n26-location-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 19px clamp(18px, 3vw, 28px);
+      border-bottom: 1px solid var(--n26-line);
+    }
+
+    .n26-location-kicker {
+      margin: 0 0 1px;
+      color: var(--n26-muted);
+      font-size: 0.69rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .n26-location-title {
+      display: inline;
+      margin: 0;
+      font-size: clamp(1.25rem, 2.3vw, 1.7rem);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+    }
+
+    .n26-location-meta {
+      margin: 4px 0 0;
+      color: var(--n26-muted);
+      font-size: 0.81rem;
+    }
+
+    .n26-count {
+      border-radius: 999px;
+      background: var(--n26-accent-soft);
+      color: var(--n26-accent);
+      padding: 6px 11px;
+      white-space: nowrap;
+      font-size: 0.74rem;
+      font-weight: 780;
+    }
+
+    .n26-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      list-style: none;
+      margin: 0;
+      padding: clamp(14px, 2.2vw, 22px);
+    }
+
+    .n26-workshop[hidden] {
+      display: none;
+    }
+
+    .n26-workshop-link {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-height: 154px;
+      height: 100%;
+      border: 1px solid var(--n26-line);
+      border-radius: 14px;
+      background: var(--n26-card);
+      color: inherit;
+      padding: 15px 15px 13px;
+      text-decoration: none;
+      box-shadow: 0 4px 13px rgba(30, 35, 32, 0.035);
+      transition: transform 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+    }
+
+    .n26-workshop-link:hover {
+      transform: translateY(-2px);
+      border-color: rgba(49, 91, 78, 0.42);
+      box-shadow: 0 10px 24px rgba(30, 35, 32, 0.09);
+    }
+
+    .n26-workshop-link:focus-visible,
+    .n26-source-link:focus-visible {
+      outline: 3px solid var(--n26-accent-soft);
+      outline-offset: 3px;
+    }
+
+    .n26-workshop-name {
+      color: var(--n26-accent);
+      font-size: 0.77rem;
+      font-weight: 830;
+      letter-spacing: 0.015em;
+    }
+
+    .n26-workshop-title {
+      align-self: start;
+      margin-top: 7px;
+      font-size: 0.93rem;
+      font-weight: 650;
+      line-height: 1.37;
+      letter-spacing: -0.009em;
+    }
+
+    .n26-workshop-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 15px;
+      padding-top: 10px;
+      border-top: 1px solid var(--n26-line);
+      color: var(--n26-muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .n26-workshop-action span {
+      color: var(--n26-accent);
+      font-size: 0.95rem;
+    }
+
+    .n26-empty {
+      margin: 0;
+      padding: 24px;
+      color: var(--n26-muted);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .n26-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px 20px;
+      margin-top: 17px;
+      color: var(--n26-muted);
+      font-size: 0.76rem;
+    }
+
+    .n26-footer p {
+      margin: 0;
+    }
+
+    .n26-source-link {
+      color: var(--n26-accent);
+      font-weight: 760;
+      text-decoration: none;
+    }
+
+    .n26-source-link:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    @media (max-width: 900px) {
+      .n26-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .n26-search-wrap {
+        max-width: 520px;
+      }
+
+      .n26-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 580px) {
+      .n26-directory {
+        padding-top: 30px;
+      }
+
+      .n26-shell {
+        width: min(calc(100% - 20px), 1180px);
+      }
+
+      .n26-location-head {
+        grid-template-columns: 1fr;
+      }
+
+      .n26-count {
+        grid-column: 1 / -1;
+        justify-self: start;
+      }
+
+      .n26-list {
+        grid-template-columns: 1fr;
+        padding: 11px;
+      }
+
+      .n26-workshop-link {
+        min-height: 0;
+      }
+
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .n26-directory {
+        --n26-bg: #111411;
+        --n26-panel: rgba(25, 29, 26, 0.90);
+        --n26-card: #1d211e;
+        --n26-text: #f1f3ef;
+        --n26-muted: #adb3ac;
+        --n26-line: #303630;
+        --n26-line-strong: #3b433c;
+        --n26-accent: #9ac8b7;
+        --n26-accent-soft: #243a32;
+        --n26-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .n26-workshop-link,
+      .n26-search {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="n26-directory" id="neurips-2026-workshops" aria-labelledby="n26-heading">
+    <div class="n26-shell">
+      <header class="n26-hero">
+        <div>
+          <p class="n26-eyebrow">Static directory · checked 5 August 2026</p>
+          <h1 class="n26-heading" id="n26-heading">NeurIPS 2026 workshops by location</h1>
+          <p class="n26-intro">
+            104 distinct workshops, grouped by their published physical venue.
+            Workshops assigned to more than one location appear in every relevant section.
+          </p>
+        </div>
+
+        <div class="n26-search-wrap">
+          <label class="n26-search-label" for="n26-search">Filter by acronym or full title</label>
+          <input class="n26-search" id="n26-search" type="search" placeholder="Try “agents”, “biology”, or “privacy”" autocomplete="off">
+        </div>
+      </header>
+
+      <div class="n26-summary" aria-live="polite">
+        <span id="n26-result-summary">Showing <strong>110</strong> location listings for <strong>104</strong> distinct workshops</span>
+      </div>
+
+      <div class="n26-locations">
+
+      <section class="n26-location" data-city="Sydney">
+        <header class="n26-location-head">
+          <div class="n26-location-copy">
+            <p class="n26-location-kicker">Main venue</p>
+            <h2 class="n26-location-title">Sydney</h2>
+            <p class="n26-location-meta">Australia · 11–12 December 2026</p>
+          </div>
+          <span class="n26-count" aria-label="54 workshop listings"><span>54</span> workshops</span>
+        </header>
+        <ul class="n26-list">
+
+          <li class="n26-workshop" data-search="AABA4ET 2nd Workshop on Agentic AI Benchmarks and Applications for Enterprise Tasks Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAABA4ET" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AABA4ET</span>
+              <span class="n26-workshop-title">2nd Workshop on Agentic AI Benchmarks and Applications for Enterprise Tasks</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="Africa in AI Roots &amp; Reach: Scaling African AI for Global Impact Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAfrica_in_AI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">Africa in AI</span>
+              <span class="n26-workshop-title">Roots &amp; Reach: Scaling African AI for Global Impact</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="AgenticLS Agentic AI for Biological Discovery Workshop Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAgenticLS" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AgenticLS</span>
+              <span class="n26-workshop-title">Agentic AI for Biological Discovery Workshop</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="AgenticOS NeurIPS 2026 AgenticOS Workshop Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAgenticOS" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AgenticOS</span>
+              <span class="n26-workshop-title">NeurIPS 2026 AgenticOS Workshop</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="AI4DD NeurIPS 2026 AI for Drug Discovery Workshop Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAI4DD" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AI4DD</span>
+              <span class="n26-workshop-title">NeurIPS 2026 AI for Drug Discovery Workshop</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="AI4Mat AI for Accelerated Materials Design Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAI4Mat" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AI4Mat</span>
+              <span class="n26-workshop-title">AI for Accelerated Materials Design</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="AI4PowerGrids AI Foundations for Power Grids @ NeurIPS 2026 Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAI4PowerGrids" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AI4PowerGrids</span>
+              <span class="n26-workshop-title">AI Foundations for Power Grids @ NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="AI4Science NeurIPS 2026 AI for Science Workshop: Verification in the Age of AI Scientists Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAI4Science" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AI4Science</span>
+              <span class="n26-workshop-title">NeurIPS 2026 AI for Science Workshop: Verification in the Age of AI Scientists</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="AIWILD Third Workshop on Agents in the Wild: Safety, Security, and Beyond Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAIWILD" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AIWILD</span>
+              <span class="n26-workshop-title">Third Workshop on Agents in the Wild: Safety, Security, and Beyond</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="ASCI ASCI Workshop @ NeurIPS 2026 Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FASCI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">ASCI</span>
+              <span class="n26-workshop-title">ASCI Workshop @ NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="ATTRIB Third NeurIPS Workshop on Attributing Model Behavior at Scale: Data Attribution and Provenance Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FATTRIB" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">ATTRIB</span>
+              <span class="n26-workshop-title">Third NeurIPS Workshop on Attributing Model Behavior at Scale: Data Attribution and Provenance</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="AutoMLR Workshop for Autonomous Machine Learning Research Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAutoMLR" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AutoMLR</span>
+              <span class="n26-workshop-title">Workshop for Autonomous Machine Learning Research</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="BeNTo Beyond Next Token Prediction: Diffusion and Flow Models for Next-Generation Decoding Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FBeNTo" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">BeNTo</span>
+              <span class="n26-workshop-title">Beyond Next Token Prediction: Diffusion and Flow Models for Next-Generation Decoding</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="BiAlign NeurIPS 2026 Workshop on Dynamic Alignment in Human-AI Coupled Systems Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FBiAlign" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">BiAlign</span>
+              <span class="n26-workshop-title">NeurIPS 2026 Workshop on Dynamic Alignment in Human-AI Coupled Systems</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="BrainBodyFM NeurIPS 2026 Workshop on Foundation Models for the Brain and Body Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FBrainBodyFM" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">BrainBodyFM</span>
+              <span class="n26-workshop-title">NeurIPS 2026 Workshop on Foundation Models for the Brain and Body</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="CL4FMAgents Continual Learning in the Era of Foundation Models and Embodied Agents Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FCL4FMAgents" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">CL4FMAgents</span>
+              <span class="n26-workshop-title">Continual Learning in the Era of Foundation Models and Embodied Agents</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="CODEC-FM NeurIPS Workshop on Collaborative, Open, and Decentralized Training of Foundation Models Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FCODEC-FM" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">CODEC-FM</span>
+              <span class="n26-workshop-title">NeurIPS Workshop on Collaborative, Open, and Decentralized Training of Foundation Models</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="CWM NeurIPS 2026 Workshop on Continual World Models Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FCWM" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">CWM</span>
+              <span class="n26-workshop-title">NeurIPS 2026 Workshop on Continual World Models</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="DiffuLM Diffusion Language Models: Foundations, Efficiency, and Reasoning Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FDiffuLM" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">DiffuLM</span>
+              <span class="n26-workshop-title">Diffusion Language Models: Foundations, Efficiency, and Reasoning</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="EvoRobust Self-Evolving Diversity-Driven Search for Robust AI Systems Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FEvoRobust" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">EvoRobust</span>
+              <span class="n26-workshop-title">Self-Evolving Diversity-Driven Search for Robust AI Systems</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="FMTS NeurIPS 2026 Workshop: Foundation Models for Temporal Systems — From Forecasting to World Modeling Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FFMTS" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">FMTS</span>
+              <span class="n26-workshop-title">NeurIPS 2026 Workshop: Foundation Models for Temporal Systems — From Forecasting to World Modeling</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="GenAI4Health The Third Workshop on GenAI for Health: Agentic Systems, Clinical Trust, and Future Potential Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FGenAI4Health" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">GenAI4Health</span>
+              <span class="n26-workshop-title">The Third Workshop on GenAI for Health: Agentic Systems, Clinical Trust, and Future Potential</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="GlobalSouthAI NeurIPS 2026 GlobalSouthAI Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FGlobalSouthAI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">GlobalSouthAI</span>
+              <span class="n26-workshop-title">NeurIPS 2026 GlobalSouthAI</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="IAB The 1st Workshop on Interpreting Agent Behavior Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FIAB" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">IAB</span>
+              <span class="n26-workshop-title">The 1st Workshop on Interpreting Agent Behavior</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="ICBINB-BIO I Can&#x27;t Believe It&#x27;s Not Better: Failure Modes of AI in Biology Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FICBINB-BIO" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">ICBINB-BIO</span>
+              <span class="n26-workshop-title">I Can&#x27;t Believe It&#x27;s Not Better: Failure Modes of AI in Biology</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="InfPriv Beyond Private Training: The New Landscape of AI Privacy Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FInfPriv" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">InfPriv</span>
+              <span class="n26-workshop-title">Beyond Private Training: The New Landscape of AI Privacy</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="InterpScience Interpretability as a Science: NeurIPS 2026 Workshop Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FInterpScience" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">InterpScience</span>
+              <span class="n26-workshop-title">Interpretability as a Science: NeurIPS 2026 Workshop</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="LP4FM NeurIPS 2026 Workshop on Linguistic Principles for Foundation Models Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FLP4FM" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">LP4FM</span>
+              <span class="n26-workshop-title">NeurIPS 2026 Workshop on Linguistic Principles for Foundation Models</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="LXAI LatinX in AI Workshop @ NeurIPS 2026 Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FLXAI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">LXAI</span>
+              <span class="n26-workshop-title">LatinX in AI Workshop @ NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="Meta-Agents First Workshop on Meta Agents: Managing Agents that Manage Agents Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FMeta-Agents" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">Meta-Agents</span>
+              <span class="n26-workshop-title">First Workshop on Meta Agents: Managing Agents that Manage Agents</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="MLForSys Machine Learning for Systems 2026 Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FMLForSys" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">MLForSys</span>
+              <span class="n26-workshop-title">Machine Learning for Systems 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="MusIML The 7th Muslims in ML Workshop at NeurIPS 2026 Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FMusIML" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">MusIML</span>
+              <span class="n26-workshop-title">The 7th Muslims in ML Workshop at NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="NEmo Neuro-Symbolic Embodied Intelligence Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FNEmo" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">NEmo</span>
+              <span class="n26-workshop-title">Neuro-Symbolic Embodied Intelligence</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="NeurReps Symmetry and Geometry in Neural Representations Sydney">
+            <a class="n26-workshop-link" href="https://neurreps.org/" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">NeurReps</span>
+              <span class="n26-workshop-title">Symmetry and Geometry in Neural Representations</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="ODI ODI Workshop @ NeurIPS 2026 Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FODI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">ODI</span>
+              <span class="n26-workshop-title">ODI Workshop @ NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="OPT OPT 2026: Optimization for Machine Learning Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FOPT" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">OPT</span>
+              <span class="n26-workshop-title">OPT 2026: Optimization for Machine Learning</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="PhysUnderstand NeurIPS 2026 Workshop on Physical Understanding for Decision-Making: Bridging Foundation Models and Reliable Agents Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FPhysUnderstand" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">PhysUnderstand</span>
+              <span class="n26-workshop-title">NeurIPS 2026 Workshop on Physical Understanding for Decision-Making: Bridging Foundation Models and Reliable Agents</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="Pre-to-Post Transitioning from Pre-Training to Post-Training Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FPre-to-Post" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">Pre-to-Post</span>
+              <span class="n26-workshop-title">Transitioning from Pre-Training to Post-Training</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="PTA From Pretrained Representations to Acting Agents Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FPTA" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">PTA</span>
+              <span class="n26-workshop-title">From Pretrained Representations to Acting Agents</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="QueerInAI × AbilityInAI Queer in AI and {Dis}Ability in AI Workshop at NeurIPS 2026 Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FQueerInAI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">QueerInAI × AbilityInAI</span>
+              <span class="n26-workshop-title">Queer in AI and {Dis}Ability in AI Workshop at NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="RCMLR Responsible Communication of Machine Learning Research in Biomedicine Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FRCMLR" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">RCMLR</span>
+              <span class="n26-workshop-title">Responsible Communication of Machine Learning Research in Biomedicine</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="Robotics World Modeling Robot Learning with World Models: Capabilities, Frontiers, and Challenges Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FRobotics_World_Modeling" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">Robotics World Modeling</span>
+              <span class="n26-workshop-title">Robot Learning with World Models: Capabilities, Frontiers, and Challenges</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="RoCo-Spring RoCo-Spring: The Robust Correspondence Challenge Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FRoCo-Spring" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">RoCo-Spring</span>
+              <span class="n26-workshop-title">RoCo-Spring: The Robust Correspondence Challenge</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="RTCA Real-Time Conversational Agents: Toward Natural Multimodal Interaction Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FRTCA" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">RTCA</span>
+              <span class="n26-workshop-title">Real-Time Conversational Agents: Toward Natural Multimodal Interaction</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="Simbiochem The 2nd Workshop on Simulations for Biology and Chemistry Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FSimbiochem" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">Simbiochem</span>
+              <span class="n26-workshop-title">The 2nd Workshop on Simulations for Biology and Chemistry</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="STODY AI for Stochastic Dynamics: From Theoretical Foundations to Scientific Applications Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FSTODY" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">STODY</span>
+              <span class="n26-workshop-title">AI for Stochastic Dynamics: From Theoretical Foundations to Scientific Applications</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="TAE NeurIPS 2026 Trust-AI-Eval Workshop Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FTAE" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">TAE</span>
+              <span class="n26-workshop-title">NeurIPS 2026 Trust-AI-Eval Workshop</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="TCCML Tackling Climate Change with Machine Learning: Workshop at NeurIPS 2026 Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FTCCML" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">TCCML</span>
+              <span class="n26-workshop-title">Tackling Climate Change with Machine Learning: Workshop at NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="Verify-Agents Who Verifies the Agents? Toward Reliable Agent Development Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FVerify-Agents" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">Verify-Agents</span>
+              <span class="n26-workshop-title">Who Verifies the Agents? Toward Reliable Agent Development</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="VLM4RWD Grounded and Faithful Vision-Language Models for Real-World Deployment 2026 Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FVLM4RWD" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">VLM4RWD</span>
+              <span class="n26-workshop-title">Grounded and Faithful Vision-Language Models for Real-World Deployment 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="WiML Women in Machine Learning Workshop @ NeurIPS 2026 Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FWiML" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">WiML</span>
+              <span class="n26-workshop-title">Women in Machine Learning Workshop @ NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="WM PAI World Models in Physical AI Workshop Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FWM_PAI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">WM PAI</span>
+              <span class="n26-workshop-title">World Models in Physical AI Workshop</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="WRL 8th Robot Learning Workshop: Is Physical AI Going Zero-Shot? Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FWRL" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">WRL</span>
+              <span class="n26-workshop-title">8th Robot Learning Workshop: Is Physical AI Going Zero-Shot?</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="XAI4Science XAI4Science: Knowledge Discovery and Trust through Interpretable Foundation Models Sydney">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FXAI4Science" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">XAI4Science</span>
+              <span class="n26-workshop-title">XAI4Science: Knowledge Discovery and Trust through Interpretable Foundation Models</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+        </ul>
+        <p class="n26-empty" hidden>No workshops match this search in Sydney.</p>
+      </section>
+
+
+      <section class="n26-location" data-city="Paris">
+        <header class="n26-location-head">
+          <div class="n26-location-copy">
+            <p class="n26-location-kicker">Satellite venue</p>
+            <h2 class="n26-location-title">Paris</h2>
+            <p class="n26-location-meta">France · 12–13 December 2026</p>
+          </div>
+          <span class="n26-count" aria-label="30 workshop listings"><span>30</span> workshops</span>
+        </header>
+        <ul class="n26-list">
+
+          <li class="n26-workshop" data-search="AI and the Self Human Identity, Authenticity, and Agency in the Age of AI Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAI_and_the_Self" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AI and the Self</span>
+              <span class="n26-workshop-title">Human Identity, Authenticity, and Agency in the Age of AI</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="AI4ChipDesign AI for Chip Design - NeurIPS 2026 Workshop Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAI4ChipDesign" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AI4ChipDesign</span>
+              <span class="n26-workshop-title">AI for Chip Design - NeurIPS 2026 Workshop</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="AI4GOOD AI4GOOD Workshop @ NeurIPS 2026 Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAI4GOOD" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AI4GOOD</span>
+              <span class="n26-workshop-title">AI4GOOD Workshop @ NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="AI4MetaScience AI for Meta-Science: Scaling and Organizing Science in the Age of AI Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAI4MetaScience" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AI4MetaScience</span>
+              <span class="n26-workshop-title">AI for Meta-Science: Scaling and Organizing Science in the Age of AI</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="AIDaR AI Data Readiness for Scientific Discovery Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAIDaR" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AIDaR</span>
+              <span class="n26-workshop-title">AI Data Readiness for Scientific Discovery</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="AXIOM Foundations of Efficient Deep Learning Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAXIOM" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AXIOM</span>
+              <span class="n26-workshop-title">Foundations of Efficient Deep Learning</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="E-values E-values: From Statistics to Machine Learning Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FE-values" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">E-values</span>
+              <span class="n26-workshop-title">E-values: From Statistics to Machine Learning</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="EIML Epistemic Intelligence in Machine Learning: The Roots of Intelligence Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FEIML" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">EIML</span>
+              <span class="n26-workshop-title">Epistemic Intelligence in Machine Learning: The Roots of Intelligence</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="FAST Foundations of Agentic Systems Theory Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FFAST" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">FAST</span>
+              <span class="n26-workshop-title">Foundations of Agentic Systems Theory</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="FLLMPT NeurIPS 2026 Workshop on Foundations of LLM Post-Training in Changing Environments Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FFLLMPT" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">FLLMPT</span>
+              <span class="n26-workshop-title">NeurIPS 2026 Workshop on Foundations of LLM Post-Training in Changing Environments</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="FLMSec Foundations of Language Model Security: Theory, Practice, and Fundamental Limits Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FFLMSec" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">FLMSec</span>
+              <span class="n26-workshop-title">Foundations of Language Model Security: Theory, Practice, and Fundamental Limits</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="GDDL Bridging Optimal Transport, Learning and Structured Data: Toward Geometric Distributional Learning Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FGDDL" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">GDDL</span>
+              <span class="n26-workshop-title">Bridging Optimal Transport, Learning and Structured Data: Toward Geometric Distributional Learning</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="GlobalSouthAI NeurIPS 2026 GlobalSouthAI Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FGlobalSouthAI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">GlobalSouthAI</span>
+              <span class="n26-workshop-title">NeurIPS 2026 GlobalSouthAI</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="LIGHT Deployable Small Foundation Models Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FLIGHT" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">LIGHT</span>
+              <span class="n26-workshop-title">Deployable Small Foundation Models</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="ML4Molecules NeurIPS 2026 Workshop on Agentic Systems for Molecular Sciences Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FML4Molecules" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">ML4Molecules</span>
+              <span class="n26-workshop-title">NeurIPS 2026 Workshop on Agentic Systems for Molecular Sciences</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="ML4SpatialBio NeurIPS Workshop on Machine Learning for Spatially Resolved High-dimensional Biology Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FML4SpatialBio" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">ML4SpatialBio</span>
+              <span class="n26-workshop-title">NeurIPS Workshop on Machine Learning for Spatially Resolved High-dimensional Biology</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="NeuralArtifacts Neural Network Artifacts as a New Data Modality Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FNeuralArtifacts" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">NeuralArtifacts</span>
+              <span class="n26-workshop-title">Neural Network Artifacts as a New Data Modality</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="NewInML New in Machine Learning Workshop @ NeurIPS 2026 Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FNewInML" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">NewInML</span>
+              <span class="n26-workshop-title">New in Machine Learning Workshop @ NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="PALM Personalized, Aligned, Long-Term Memory for AI Systems Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FPALM" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">PALM</span>
+              <span class="n26-workshop-title">Personalized, Aligned, Long-Term Memory for AI Systems</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="PriGM Principles of Generative Modeling Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FPriGM" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">PriGM</span>
+              <span class="n26-workshop-title">Principles of Generative Modeling</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="PriLOM Privacy in the Era of Large Opaque Models: Theoretical, Legal, and Practical Perspectives Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FMPLR-FM" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">PriLOM</span>
+              <span class="n26-workshop-title">Privacy in the Era of Large Opaque Models: Theoretical, Legal, and Practical Perspectives</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="QueerInAI × AbilityInAI Queer in AI and {Dis}Ability in AI Workshop at NeurIPS 2026 Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FQueerInAI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">QueerInAI × AbilityInAI</span>
+              <span class="n26-workshop-title">Queer in AI and {Dis}Ability in AI Workshop at NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="ReMuCAI Real-Time Multimodal Conversational AI Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FReMuCAI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">ReMuCAI</span>
+              <span class="n26-workshop-title">Real-Time Multimodal Conversational AI</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="RL4XS Reinforcement Learning for Experimental Sciences Workshop Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FRL4XS" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">RL4XS</span>
+              <span class="n26-workshop-title">Reinforcement Learning for Experimental Sciences Workshop</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="RoboPAD Post-Training Adaptation of Robot Foundation Models Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FRoboPAD" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">RoboPAD</span>
+              <span class="n26-workshop-title">Post-Training Adaptation of Robot Foundation Models</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="RPS Representations for the Physical Sciences Workshop @ NeurIPS 2026 Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FRPS" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">RPS</span>
+              <span class="n26-workshop-title">Representations for the Physical Sciences Workshop @ NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="Sim2Sci Sim2Science: ML with Imperfect Scientific Models Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FSim2Sci" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">Sim2Sci</span>
+              <span class="n26-workshop-title">Sim2Science: ML with Imperfect Scientific Models</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="SLM-Agents 1st NeurIPS Workshop on SLMs for Agentic Systems Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FSLM-Agents" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">SLM-Agents</span>
+              <span class="n26-workshop-title">1st NeurIPS Workshop on SLMs for Agentic Systems</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="TS-LIMITS Generalization for Time Series in Tight Settings: Latency, Inference, Memory, Privacy and Sustainability Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FTS-LIMITS" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">TS-LIMITS</span>
+              <span class="n26-workshop-title">Generalization for Time Series in Tight Settings: Latency, Inference, Memory, Privacy and Sustainability</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="WiML Women in Machine Learning Workshop @ NeurIPS 2026 Paris">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FWiML" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">WiML</span>
+              <span class="n26-workshop-title">Women in Machine Learning Workshop @ NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+        </ul>
+        <p class="n26-empty" hidden>No workshops match this search in Paris.</p>
+      </section>
+
+
+      <section class="n26-location" data-city="Atlanta">
+        <header class="n26-location-head">
+          <div class="n26-location-copy">
+            <p class="n26-location-kicker">Satellite venue</p>
+            <h2 class="n26-location-title">Atlanta</h2>
+            <p class="n26-location-meta">Georgia, USA · 12–13 December 2026</p>
+          </div>
+          <span class="n26-count" aria-label="26 workshop listings"><span>26</span> workshops</span>
+        </header>
+        <ul class="n26-list">
+
+          <li class="n26-workshop" data-search="AI-Native Academia AI-Native Academia: Authorship, Peer Review, and Conference Governance under AI Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAI-Native_Academia" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AI-Native Academia</span>
+              <span class="n26-workshop-title">AI-Native Academia: Authorship, Peer Review, and Conference Governance under AI</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="AIM Agents for Biomedical Imaging and Multimodal Clinical Data Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAIM" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AIM</span>
+              <span class="n26-workshop-title">Agents for Biomedical Imaging and Multimodal Clinical Data</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="AISciK AI &amp; Science: Evolution or Extinction? Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FAISciK" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">AISciK</span>
+              <span class="n26-workshop-title">AI &amp; Science: Evolution or Extinction?</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="Child Safety in AI NeurIPS 2026 Workshop on Child Safety in AI Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FChild_Safety_in_AI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">Child Safety in AI</span>
+              <span class="n26-workshop-title">NeurIPS 2026 Workshop on Child Safety in AI</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="CLEA Continual Learning for Enterprise AI Agents Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FCLEA" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">CLEA</span>
+              <span class="n26-workshop-title">Continual Learning for Enterprise AI Agents</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="DevAI Developmental Perspectives on AI Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FDevAI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">DevAI</span>
+              <span class="n26-workshop-title">Developmental Perspectives on AI</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="DynaFront Dynamics at the Frontiers of Optimization, Sampling, and Games Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FDynaFront" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">DynaFront</span>
+              <span class="n26-workshop-title">Dynamics at the Frontiers of Optimization, Sampling, and Games</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="EconML Economics for Machine Learning Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FEconML" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">EconML</span>
+              <span class="n26-workshop-title">Economics for Machine Learning</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="GEM Bio NeurIPS Workshop on Integrating Generative and Experimental Platforms for Biomolecular Design (GEM) Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FGEM_Bio" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">GEM Bio</span>
+              <span class="n26-workshop-title">NeurIPS Workshop on Integrating Generative and Experimental Platforms for Biomolecular Design (GEM)</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="HAIC Human-AI Coevolution Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FHAIC" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">HAIC</span>
+              <span class="n26-workshop-title">Human-AI Coevolution</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="IAEval Evaluation of Interactive Agents Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FIAEval" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">IAEval</span>
+              <span class="n26-workshop-title">Evaluation of Interactive Agents</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="Interp4Discovery Interpretability for Discovery Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FInterp4Discovery" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">Interp4Discovery</span>
+              <span class="n26-workshop-title">Interpretability for Discovery</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="JUDGe Reliable Evaluation for Language Models Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FJUDGe" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">JUDGe</span>
+              <span class="n26-workshop-title">Reliable Evaluation for Language Models</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="LXAI LatinX in AI Workshop @ NeurIPS 2026 Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FLXAI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">LXAI</span>
+              <span class="n26-workshop-title">LatinX in AI Workshop @ NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="MATH-AI The Sixth Workshop on Mathematical Reasoning and AI Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FMATH-AI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">MATH-AI</span>
+              <span class="n26-workshop-title">The Sixth Workshop on Mathematical Reasoning and AI</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="Med-Reasoner Medical Reasoning with Vision-Language Foundation Models Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FMed-Reasoner" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">Med-Reasoner</span>
+              <span class="n26-workshop-title">Medical Reasoning with Vision-Language Foundation Models</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="MLxOR Learning for Uncertainty-Aware Decision-Making Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FMLxOR" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">MLxOR</span>
+              <span class="n26-workshop-title">Learning for Uncertainty-Aware Decision-Making</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="PhysWorldAI Physical World AI: Geometry, Characteristics, and Multimodal Sensing Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FPhysWorldAI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">PhysWorldAI</span>
+              <span class="n26-workshop-title">Physical World AI: Geometry, Characteristics, and Multimodal Sensing</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="QueerInAI × AbilityInAI Queer in AI and {Dis}Ability in AI Workshop at NeurIPS 2026 Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FQueerInAI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">QueerInAI × AbilityInAI</span>
+              <span class="n26-workshop-title">Queer in AI and {Dis}Ability in AI Workshop at NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="RAAAI Resource-Aware Agentic AI Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FRAAAI" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">RAAAI</span>
+              <span class="n26-workshop-title">Resource-Aware Agentic AI</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="SaTQuML Secure and Trustworthy Quantum Machine Learning Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FSaTQuML" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">SaTQuML</span>
+              <span class="n26-workshop-title">Secure and Trustworthy Quantum Machine Learning</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="SocialAgent Large Language Models for Social Reasoning and Simulation Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FSocialAgent" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">SocialAgent</span>
+              <span class="n26-workshop-title">Large Language Models for Social Reasoning and Simulation</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="TTCL Towards Test-Time Continual Learning Agents Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FTTCL" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">TTCL</span>
+              <span class="n26-workshop-title">Towards Test-Time Continual Learning Agents</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="VERICODEGEN AI for Verifiable Coding Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FVERICODEGEN" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">VERICODEGEN</span>
+              <span class="n26-workshop-title">AI for Verifiable Coding</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="WiML Women in Machine Learning Workshop @ NeurIPS 2026 Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FWiML" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">WiML</span>
+              <span class="n26-workshop-title">Women in Machine Learning Workshop @ NeurIPS 2026</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+
+          <li class="n26-workshop" data-search="WMHS World Models for High-Stakes Health: Reliable Clinical Trial Simulation and Intervention-Aware Reasoning Atlanta">
+            <a class="n26-workshop-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FWMHS" target="_blank" rel="noopener noreferrer">
+              <span class="n26-workshop-name">WMHS</span>
+              <span class="n26-workshop-title">World Models for High-Stakes Health: Reliable Clinical Trial Simulation and Intervention-Aware Reasoning</span>
+              <span class="n26-workshop-action" aria-hidden="true">Open <span>↗</span></span>
+            </a>
+          </li>
+        </ul>
+        <p class="n26-empty" hidden>No workshops match this search in Atlanta.</p>
+      </section>
+      </div>
+
+      <footer class="n26-footer">
+        <p>Static snapshot; workshop titles and assignments may be updated by organizers after 5 August 2026.</p>
+        <p>
+          Source index:
+          <a class="n26-source-link" href="https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop" target="_blank" rel="noopener noreferrer">OpenReview ↗</a>
+        </p>
+      </footer>
+    </div>
+  </section>
+
+  <script>
+    (() => {
+      const root = document.getElementById("neurips-2026-workshops");
+      if (!root) return;
+
+      const input = root.querySelector("#n26-search");
+      const cards = [...root.querySelectorAll(".n26-workshop")];
+      const locations = [...root.querySelectorAll(".n26-location")];
+      const summary = root.querySelector("#n26-result-summary");
+      const distinctTotal = 104;
+      const listingTotal = 110;
+
+      const normalize = (value) =>
+        value.toLocaleLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
+
+      const update = () => {
+        const query = normalize(input.value.trim());
+        let visibleListings = 0;
+        const visibleWorkshopNames = new Set();
+
+        cards.forEach((card) => {
+          const matches = !query || normalize(card.dataset.search || "").includes(query);
+          card.hidden = !matches;
+
+          if (matches) {
+            visibleListings += 1;
+            visibleWorkshopNames.add(card.querySelector(".n26-workshop-name").textContent.trim());
+          }
+        });
+
+        locations.forEach((location) => {
+          const visibleInCity = [...location.querySelectorAll(".n26-workshop:not([hidden])")].length;
+          location.querySelector(".n26-count span").textContent = visibleInCity;
+          location.querySelector(".n26-empty").hidden = visibleInCity !== 0;
+          location.hidden = query && visibleInCity === 0;
+        });
+
+        if (!query) {
+          summary.innerHTML =
+            `Showing <strong>${listingTotal}</strong> location listings for <strong>${distinctTotal}</strong> distinct workshops`;
+        } else {
+          summary.innerHTML =
+            `Found <strong>${visibleWorkshopNames.size}</strong> distinct workshop${visibleWorkshopNames.size === 1 ? "" : "s"} across <strong>${visibleListings}</strong> location listing${visibleListings === 1 ? "" : "s"}`;
+        }
+      };
+
+      input.addEventListener("input", update);
+      input.addEventListener("search", update);
+      update();
+    })();
+  </script>
+</body>
+</html>

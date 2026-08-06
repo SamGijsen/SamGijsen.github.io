@@ -93,6 +93,11 @@ defaults:
       type: "pages"
     values:
       layout: page # Set the default layout for pages
+  -
+    scope:
+      path: "neurips-2026-workshops-by-location/index.html"
+    values:
+      sitemap: false # Keep this temporary, direct-link page out of the generated sitemap
 
 # 7. Site settings
 encoding: utf-8 # Make sure the encoding is right
