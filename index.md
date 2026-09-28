@@ -36,7 +36,7 @@
 <hr style="margin: 0.5em 0;">
 
 <div class="title-compact">
-  Flow Matching with In-Context Priors for Out-of-Distribution Brain Dynamics
+  [NeurIPS26] Flow Matching with In-Context Priors for Out-of-Distribution Brain Dynamics
 </div>
 <section class="featured-work">
   <video class="featured-work__video" autoplay loop muted playsinline>
@@ -44,7 +44,7 @@
   </video>
   <p>We propose a per-timestep conditioned diffusion transformer for generating realistic neural time series during unseen experimental tasks by injecting both compositional language and optional spatial priors in-context. Its zero-shot generation can facilitate counterfactual neuroscience by supporting in-silico design and evaluation of novel cognitive experiments before empirical validation. <a href="/general/2026/06/15/pinc-flows/">A summary with GIFs can be found here.</a></p>
     <p>
-      <a href="https://arxiv.org/abs/2606.11833">Preprint</a> •
+      <a href="https://arxiv.org/abs/2606.11833">Paper</a> •
       <a href="https://github.com/SamGijsen/pinc-flows">Code</a> •
       <a href="https://huggingface.co/SamGijsen/pinc-flows">Pretrained Models</a>
     </p>
